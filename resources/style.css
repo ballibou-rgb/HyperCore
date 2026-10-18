@@ -1,0 +1,728 @@
+/* ============================================================
+ * HyperCore Studio - IDE-Design
+ * Vollstaendig self-contained, kein System-Theme-Einfluss.
+ * ============================================================ */
+
+/* Dunkel-Palette */
+@define-color gs_bg        #222730;
+@define-color gs_bar       #262c36;
+@define-color gs_content   #1a1e25;
+@define-color gs_elevated  #2b313c;
+@define-color gs_fg        #e7eaef;
+@define-color gs_fg_dim    #99a2b0;
+@define-color gs_border    #39404c;
+@define-color gs_accent    #5aa0e6;
+
+/* Hell-Palette */
+@define-color wl_bg        #f0f2f5;
+@define-color wl_bar       #e4e7ec;
+@define-color wl_content   #ffffff;
+@define-color wl_elevated  #f8f9fb;
+@define-color wl_fg        #1a1d23;
+@define-color wl_fg_dim    #5a6272;
+@define-color wl_border    #cdd1d9;
+@define-color wl_accent    #2563eb;
+
+/* ============================================================
+ * RESET - GTK-Standard-Styles neutralisieren
+ * ============================================================ */
+
+/* Alle Fenster die wir verwalten bekommen unsere Farben */
+window.hc {
+    background-color: @gs_bg;
+    color: @gs_fg;
+}
+window.hc.hc-light {
+    background-color: @wl_bg;
+    color: @wl_fg;
+}
+
+/* Root-Box */
+box.hc-root { background-color: @gs_bg; }
+window.hc.hc-light box.hc-root { background-color: @wl_bg; }
+
+/* ============================================================
+ * TITELLEISTE (Hauptfenster + Dialoge)
+ * ============================================================ */
+box.hc-titlebar,
+box.hc-dialog-titlebar {
+    background-color: @gs_bar;
+    color: @gs_fg;
+    border: none;
+    padding: 0 4px;
+    min-height: 42px;
+    border-radius: 12px 12px 0 0;
+}
+box.hc-titlebar label,
+box.hc-dialog-titlebar label,
+box.hc-titlebar label.title,
+box.hc-dialog-titlebar label.title {
+    font-weight: 600;
+    font-size: 0.92em;
+    color: @gs_fg;
+}
+box.hc-titlebar button,
+box.hc-dialog-titlebar button,
+box.hc-titlebar windowcontrols button,
+box.hc-dialog-titlebar windowcontrols button {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    color: @gs_fg;
+    min-width: 30px;
+    min-height: 30px;
+    padding: 0;
+    margin: 0 1px;
+    border-radius: 7px;
+}
+box.hc-titlebar button:hover,
+box.hc-dialog-titlebar button:hover,
+box.hc-titlebar windowcontrols button:hover,
+box.hc-dialog-titlebar windowcontrols button:hover {
+    background-color: rgba(255,255,255,0.12);
+}
+box.hc-titlebar windowcontrols button.close:hover,
+box.hc-dialog-titlebar windowcontrols button.close:hover {
+    background-color: #c0392b;
+    color: #fff;
+}
+box.hc-titlebar button:checked {
+    background-color: rgba(90,160,230,0.22);
+}
+
+/* Hell */
+window.hc.hc-light box.hc-titlebar,
+window.hc.hc-light box.hc-dialog-titlebar {
+    background-color: @wl_bar;
+    color: @wl_fg;
+}
+window.hc.hc-light box.hc-titlebar label,
+window.hc.hc-light box.hc-dialog-titlebar label,
+window.hc.hc-light box.hc-titlebar label.title,
+window.hc.hc-light box.hc-dialog-titlebar label.title {
+    color: @wl_fg;
+}
+window.hc.hc-light box.hc-titlebar button,
+window.hc.hc-light box.hc-dialog-titlebar button,
+window.hc.hc-light box.hc-titlebar windowcontrols button,
+window.hc.hc-light box.hc-dialog-titlebar windowcontrols button {
+    color: @wl_fg;
+}
+window.hc.hc-light box.hc-titlebar button:hover,
+window.hc.hc-light box.hc-dialog-titlebar button:hover,
+window.hc.hc-light box.hc-titlebar windowcontrols button:hover,
+window.hc.hc-light box.hc-dialog-titlebar windowcontrols button:hover {
+    background-color: rgba(0,0,0,0.07);
+}
+
+/* ============================================================
+ * MENUELEISTE
+ * ============================================================ */
+menubar.hc-menubar {
+    background-color: transparent;
+    border: none;
+    padding: 0 2px;
+    color: @gs_fg;
+}
+menubar.hc-menubar > item {
+    padding: 5px 10px;
+    border-radius: 6px;
+    color: @gs_fg;
+    background: transparent;
+}
+menubar.hc-menubar > item:hover,
+menubar.hc-menubar > item:selected {
+    background-color: rgba(255,255,255,0.10);
+    color: @gs_fg;
+}
+
+window.hc.hc-light menubar.hc-menubar { color: @wl_fg; }
+window.hc.hc-light menubar.hc-menubar > item { color: @wl_fg; background: transparent; }
+window.hc.hc-light menubar.hc-menubar > item:hover,
+window.hc.hc-light menubar.hc-menubar > item:selected {
+    background-color: rgba(0,0,0,0.07);
+    color: @wl_fg;
+}
+
+/* Popover-Menue */
+popover.menu > contents {
+    background-color: @gs_elevated;
+    color: @gs_fg;
+    border: 1px solid @gs_border;
+    border-radius: 10px;
+    padding: 4px;
+    box-shadow: 0 8px 28px rgba(0,0,0,0.45);
+}
+popover.menu modelbutton {
+    border-radius: 6px;
+    padding: 7px 12px;
+    color: @gs_fg;
+    background: transparent;
+}
+popover.menu modelbutton:hover { background-color: rgba(255,255,255,0.10); }
+popover.menu separator { background-color: @gs_border; margin: 3px 6px; }
+
+window.hc.hc-light popover.menu > contents {
+    background-color: @wl_elevated;
+    color: @wl_fg;
+    border-color: @wl_border;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}
+window.hc.hc-light popover.menu modelbutton { color: @wl_fg; }
+window.hc.hc-light popover.menu modelbutton:hover { background-color: rgba(0,0,0,0.06); }
+window.hc.hc-light popover.menu separator { background-color: @wl_border; }
+
+/* ============================================================
+ * TOOLBAR
+ * ============================================================ */
+box.hc-toolbar {
+    background-color: @gs_bar;
+    border-bottom: 1px solid @gs_border;
+}
+box.hc-toolbar button {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    color: @gs_fg;
+    padding: 5px 8px;
+    border-radius: 6px;
+    min-height: 28px;
+    min-width: 28px;
+}
+box.hc-toolbar button:hover { background-color: rgba(255,255,255,0.09); }
+box.hc-toolbar button.suggested-action {
+    background-color: @gs_accent;
+    color: #0d1220;
+    font-weight: 600;
+    border: none;
+}
+box.hc-toolbar button.suggested-action:hover { background-color: #72b3f0; }
+box.hc-toolbar button.hc-run {
+    background-color: #27864a;
+    color: #e8ffe8;
+    font-weight: 600;
+    border-radius: 7px;
+}
+box.hc-toolbar button.hc-run:hover { background-color: #30a05a; }
+separator.hc-toolsep { background-color: @gs_border; margin: 5px 3px; }
+
+window.hc.hc-light box.hc-toolbar { background-color: @wl_bar; border-bottom: 1px solid @wl_border; }
+window.hc.hc-light box.hc-toolbar button { color: @wl_fg; }
+window.hc.hc-light box.hc-toolbar button:hover { background-color: rgba(0,0,0,0.06); }
+window.hc.hc-light box.hc-toolbar button.suggested-action { background-color: @wl_accent; color: #fff; }
+window.hc.hc-light separator.hc-toolsep { background-color: @wl_border; }
+
+/* ============================================================
+ * PANELS / SIDEBAR / BAUMANSICHT
+ * ============================================================ */
+label.hc-panel-head {
+    font-size: 0.72em; font-weight: 700;
+    letter-spacing: 0.08em; color: @gs_fg_dim;
+}
+box.hc-treepanel {
+    background-color: @gs_content;
+    border-right: 1px solid @gs_border;
+}
+listview.hc-tree { background-color: @gs_content; color: @gs_fg; }
+listview.hc-tree row { border-radius: 5px; padding: 1px 2px; }
+listview.hc-tree row:selected { background-color: rgba(90,160,230,0.22); }
+listview.hc-tree row:hover { background-color: rgba(255,255,255,0.05); }
+listview.hc-tree image { color: @gs_fg_dim; }
+
+window.hc.hc-light box.hc-treepanel { background-color: @wl_content; border-right: 1px solid @wl_border; }
+window.hc.hc-light listview.hc-tree { background-color: @wl_content; color: @wl_fg; }
+window.hc.hc-light listview.hc-tree row:selected { background-color: rgba(37,99,235,0.14); }
+window.hc.hc-light listview.hc-tree row:hover { background-color: rgba(0,0,0,0.04); }
+
+box.hc-sidebar { background-color: @gs_content; border-left: 1px solid @gs_border; }
+box.hc-sidebar-switch button {
+    background: transparent; color: @gs_fg_dim;
+    border: none; border-radius: 6px; padding: 5px 6px;
+}
+box.hc-sidebar-switch button:hover { background-color: rgba(255,255,255,0.06); color: @gs_fg; }
+window.hc.hc-light box.hc-sidebar { background-color: @wl_content; border-left: 1px solid @wl_border; }
+
+/* ============================================================
+ * NOTEBOOK / TABS
+ * ============================================================ */
+notebook.hc-notebook > header {
+    background-color: @gs_bar;
+    border-bottom: 1px solid @gs_border;
+}
+notebook.hc-notebook > header tab {
+    background: transparent; color: @gs_fg_dim;
+    border: none; padding: 5px 8px; margin: 2px 1px;
+    font-size: 0.88em;
+}
+notebook.hc-notebook > header tab:checked {
+    color: @gs_fg;
+    background-color: @gs_content;
+    border-radius: 6px 6px 0 0;
+    box-shadow: inset 0 -2px 0 @gs_accent;
+}
+
+window.hc.hc-light notebook.hc-notebook > header { background-color: @wl_bar; border-bottom: 1px solid @wl_border; }
+window.hc.hc-light notebook.hc-notebook > header tab { color: @wl_fg_dim; }
+window.hc.hc-light notebook.hc-notebook > header tab:checked { color: @wl_fg; background-color: @wl_content; }
+
+/* ============================================================
+ * GTK-WIDGET OVERRIDES (scoped auf .hc Fenster)
+ * ============================================================ */
+
+/* ---- Entry ---- */
+window.hc entry,
+window.hc.hc-light entry {
+    border-radius: 7px;
+    padding: 6px 10px;
+    caret-color: @gs_accent;
+    box-shadow: none;
+    outline: none;
+    transition: border-color 120ms ease, box-shadow 120ms ease;
+}
+window.hc entry {
+    background-color: @gs_content;
+    color: @gs_fg;
+    border: 1px solid @gs_border;
+}
+window.hc entry:focus {
+    border-color: @gs_accent;
+    box-shadow: 0 0 0 2px rgba(90,160,230,0.22);
+}
+window.hc entry > text { color: @gs_fg; }
+window.hc entry > placeholder { color: @gs_fg_dim; }
+window.hc entry selection { background-color: rgba(90,160,230,0.35); color: @gs_fg; }
+window.hc entry:disabled { opacity: 0.42; }
+
+window.hc.hc-light entry {
+    background-color: @wl_content;
+    color: @wl_fg;
+    border: 1px solid @wl_border;
+}
+window.hc.hc-light entry:focus {
+    border-color: @wl_accent;
+    box-shadow: 0 0 0 2px rgba(37,99,235,0.18);
+}
+window.hc.hc-light entry > text { color: @wl_fg; }
+window.hc.hc-light entry > placeholder { color: @wl_fg_dim; }
+window.hc.hc-light entry selection { background-color: rgba(37,99,235,0.25); color: @wl_fg; }
+
+/* ---- SpinButton ---- */
+window.hc spinbutton {
+    background-color: @gs_content;
+    color: @gs_fg;
+    border: 1px solid @gs_border;
+    border-radius: 7px;
+    padding: 0;
+    box-shadow: none;
+    outline: none;
+    min-height: 32px;
+}
+window.hc spinbutton:focus { border-color: @gs_accent; box-shadow: 0 0 0 2px rgba(90,160,230,0.22); }
+window.hc spinbutton > text { color: @gs_fg; padding: 4px 8px; }
+window.hc spinbutton button {
+    background-color: @gs_elevated;
+    color: @gs_fg;
+    border: none;
+    border-left: 1px solid @gs_border;
+    border-radius: 0;
+    min-width: 26px;
+    min-height: 26px;
+    padding: 0;
+    box-shadow: none;
+}
+window.hc spinbutton button:hover { background-color: rgba(255,255,255,0.12); }
+window.hc spinbutton button:first-child { border-left: none; border-right: 1px solid @gs_border; border-radius: 6px 0 0 6px; }
+window.hc spinbutton button:last-child  { border-radius: 0 6px 6px 0; }
+window.hc spinbutton button image { color: @gs_fg; -gtk-icon-size: 12px; }
+
+window.hc.hc-light spinbutton { background-color: @wl_content; color: @wl_fg; border-color: @wl_border; }
+window.hc.hc-light spinbutton > text { color: @wl_fg; }
+window.hc.hc-light spinbutton button { background-color: @wl_elevated; color: @wl_fg; border-color: @wl_border; }
+window.hc.hc-light spinbutton button:hover { background-color: rgba(0,0,0,0.06); }
+window.hc.hc-light spinbutton button image { color: @wl_fg; }
+window.hc.hc-light spinbutton:focus { border-color: @wl_accent; box-shadow: 0 0 0 2px rgba(37,99,235,0.16); }
+
+/* ---- Switch ---- */
+/* GTK4: CSS min-width/min-height auf switch wird ignoriert.
+ * Groesse wird per gtk_widget_set_size_request() im C-Code gesetzt.
+ * CSS steuert nur Farbe und Slider-Optik. */
+window.hc switch {
+    background-color: @gs_border;
+    border: none;
+    border-radius: 100px;
+    padding: 0;
+    box-shadow: none;
+    outline: none;
+    transition: background-color 180ms ease;
+}
+window.hc switch:checked { background-color: @gs_accent; }
+window.hc switch:disabled { opacity: 0.38; }
+window.hc switch > slider {
+    background-color: #ffffff;
+    border-radius: 100px;
+    min-width: 18px;
+    min-height: 18px;
+    margin: 3px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.40);
+    transition: margin 150ms ease;
+}
+window.hc switch:checked > slider { margin-left: 23px; }
+
+window.hc.hc-light switch { background-color: @wl_border; }
+window.hc.hc-light switch:checked { background-color: @wl_accent; }
+window.hc.hc-light switch > slider { box-shadow: 0 1px 3px rgba(0,0,0,0.20); }
+
+/* ---- CheckButton ---- */
+window.hc checkbutton > check {
+    background-color: @gs_content;
+    border: 1px solid @gs_border;
+    border-radius: 5px;
+    min-width: 16px; min-height: 16px;
+    padding: 2px; box-shadow: none; color: transparent;
+}
+window.hc checkbutton > check:checked {
+    background-color: @gs_accent; border-color: @gs_accent; color: #0d1220;
+}
+window.hc checkbutton > check:hover { border-color: @gs_accent; }
+window.hc checkbutton label { color: @gs_fg; padding-left: 6px; }
+
+window.hc.hc-light checkbutton > check { background-color: @wl_content; border-color: @wl_border; }
+window.hc.hc-light checkbutton > check:checked { background-color: @wl_accent; border-color: @wl_accent; color: #fff; }
+window.hc.hc-light checkbutton label { color: @wl_fg; }
+
+/* ---- Button (generisch, scoped auf .hc Fenster) ---- */
+window.hc button {
+    background-color: @gs_elevated;
+    color: @gs_fg;
+    border: 1px solid @gs_border;
+    border-radius: 7px;
+    padding: 5px 12px;
+    min-height: 28px;
+    box-shadow: none;
+    outline: none;
+    transition: background-color 120ms ease;
+    font-size: 0.90em;
+}
+window.hc button:hover { background-color: rgba(255,255,255,0.10); border-color: rgba(255,255,255,0.18); }
+window.hc button:active { background-color: rgba(255,255,255,0.06); }
+window.hc button:disabled { opacity: 0.38; }
+window.hc button.suggested-action {
+    background-color: @gs_accent; color: #0d1220;
+    border: none; font-weight: 600;
+}
+window.hc button.suggested-action:hover { background-color: #72b3f0; }
+window.hc button.destructive-action { background-color: #b83030; color: #fff; border: none; }
+window.hc button.destructive-action:hover { background-color: #c84040; }
+window.hc button.flat {
+    background: transparent; border: none; box-shadow: none; padding: 4px 8px;
+}
+window.hc button.flat:hover { background-color: rgba(255,255,255,0.08); }
+
+window.hc.hc-light button { background-color: @wl_elevated; color: @wl_fg; border-color: @wl_border; }
+window.hc.hc-light button:hover { background-color: rgba(0,0,0,0.06); border-color: rgba(0,0,0,0.15); }
+window.hc.hc-light button:active { background-color: rgba(0,0,0,0.04); }
+window.hc.hc-light button.suggested-action { background-color: @wl_accent; color: #fff; border: none; }
+window.hc.hc-light button.suggested-action:hover { background-color: #3b74f7; }
+window.hc.hc-light button.destructive-action { background-color: #c0392b; color: #fff; }
+window.hc.hc-light button.flat { background: transparent; border: none; }
+window.hc.hc-light button.flat:hover { background-color: rgba(0,0,0,0.06); }
+
+/* ---- DropDown / ComboBox ---- */
+window.hc dropdown,
+window.hc combobox button {
+    background-color: @gs_content;
+    color: @gs_fg;
+    border: 1px solid @gs_border;
+    border-radius: 7px;
+    padding: 5px 10px;
+    min-height: 32px;
+    box-shadow: none;
+}
+window.hc dropdown:hover,
+window.hc combobox button:hover { border-color: @gs_accent; }
+window.hc dropdown:focus,
+window.hc combobox button:focus {
+    border-color: @gs_accent;
+    box-shadow: 0 0 0 2px rgba(90,160,230,0.22);
+}
+window.hc dropdown > arrow,
+window.hc combobox button > arrow { color: @gs_fg_dim; -gtk-icon-size: 13px; }
+popover.combo > contents,
+popover.dropdown > contents {
+    background-color: @gs_elevated;
+    border: 1px solid @gs_border;
+    border-radius: 10px; padding: 4px; color: @gs_fg;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.42);
+}
+popover.combo > contents row,
+popover.dropdown > contents row { border-radius: 6px; padding: 6px 10px; color: @gs_fg; }
+popover.combo > contents row:hover,
+popover.dropdown > contents row:hover { background-color: rgba(255,255,255,0.09); }
+popover.combo > contents row:selected,
+popover.dropdown > contents row:selected { background-color: rgba(90,160,230,0.22); }
+
+window.hc.hc-light dropdown,
+window.hc.hc-light combobox button {
+    background-color: @wl_content; color: @wl_fg; border-color: @wl_border;
+}
+window.hc.hc-light dropdown > arrow,
+window.hc.hc-light combobox button > arrow { color: @wl_fg_dim; }
+window.hc.hc-light popover.combo > contents,
+window.hc.hc-light popover.dropdown > contents {
+    background-color: @wl_elevated; color: @wl_fg; border-color: @wl_border;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+}
+window.hc.hc-light popover.combo > contents row,
+window.hc.hc-light popover.dropdown > contents row { color: @wl_fg; }
+window.hc.hc-light popover.combo > contents row:hover,
+window.hc.hc-light popover.dropdown > contents row:hover { background-color: rgba(0,0,0,0.05); }
+
+/* ---- Scrollbar ---- */
+window.hc scrollbar { background: transparent; border: none; padding: 0; }
+window.hc scrollbar > range > trough { background: transparent; border-radius: 100px; }
+window.hc scrollbar > range > trough > slider {
+    background-color: rgba(255,255,255,0.16);
+    border-radius: 100px; min-width: 5px; min-height: 5px; margin: 2px;
+    transition: background-color 150ms ease, min-width 150ms, min-height 150ms;
+}
+window.hc scrollbar > range > trough > slider:hover { background-color: rgba(255,255,255,0.28); min-width: 7px; }
+window.hc scrollbar.vertical > range > trough > slider:hover { min-height: 7px; }
+window.hc.hc-light scrollbar > range > trough > slider { background-color: rgba(0,0,0,0.16); }
+window.hc.hc-light scrollbar > range > trough > slider:hover { background-color: rgba(0,0,0,0.28); }
+
+/* ---- FontDialogButton ---- */
+window.hc fontdialogbutton {
+    background-color: @gs_content; color: @gs_fg;
+    border: 1px solid @gs_border; border-radius: 7px; padding: 5px 10px; box-shadow: none;
+}
+window.hc fontdialogbutton:hover { border-color: @gs_accent; }
+window.hc.hc-light fontdialogbutton { background-color: @wl_content; color: @wl_fg; border-color: @wl_border; }
+
+/* ---- Separator ---- */
+window.hc separator { background-color: @gs_border; min-height: 1px; min-width: 1px; }
+window.hc.hc-light separator { background-color: @wl_border; }
+
+/* ---- ProgressBar ---- */
+window.hc progressbar > trough { background-color: @gs_border; border-radius: 100px; min-height: 4px; }
+window.hc progressbar > trough > progress { background-color: @gs_accent; border-radius: 100px; }
+window.hc.hc-light progressbar > trough { background-color: @wl_border; }
+
+/* ============================================================
+ * DIALOGE
+ * ============================================================ */
+/* Nicht-dekorierte Dialoge: Rundungen auf der inneren Root-Box.
+ * Das Fenster selbst bleibt rechteckig (Compositor-abhaengig),
+ * aber die sichtbare Chrome-Box hat abgerundete Ecken. */
+box.hc-dialog-root {
+    background-color: @gs_bg;
+    color: @gs_fg;
+    border-radius: 12px;
+    border: 1px solid @gs_border;
+    overflow: hidden;
+}
+window.hc.hc-light box.hc-dialog-root {
+    background-color: @wl_bg;
+    color: @wl_fg;
+    border-color: @wl_border;
+}
+
+/* Notebook-Tabs in Dialogen */
+box.hc-dialog-root notebook > header {
+    background-color: @gs_bar;
+    border-bottom: 1px solid @gs_border;
+}
+box.hc-dialog-root notebook > header tab {
+    background: transparent; color: @gs_fg_dim;
+    border: none; padding: 9px 18px; margin: 0; font-size: 0.88em;
+}
+box.hc-dialog-root notebook > header tab:checked {
+    color: @gs_fg; box-shadow: inset 0 -2px 0 @gs_accent;
+}
+box.hc-dialog-root notebook > header tab:hover { color: @gs_fg; }
+
+window.hc.hc-light box.hc-dialog-root notebook > header { background-color: @wl_bar; border-bottom: 1px solid @wl_border; }
+window.hc.hc-light box.hc-dialog-root notebook > header tab { color: @wl_fg_dim; }
+window.hc.hc-light box.hc-dialog-root notebook > header tab:checked { color: @wl_fg; }
+
+/* Fussleiste */
+box.hc-dialog-footer {
+    background-color: @gs_bar;
+    border-top: 1px solid @gs_border;
+    padding: 8px 14px;
+    border-radius: 0 0 12px 12px;
+}
+window.hc.hc-light box.hc-dialog-footer {
+    background-color: @wl_bar;
+    border-top: 1px solid @wl_border;
+}
+
+/* Settings-Beschriftungen */
+label.hc-settings-key { color: @gs_fg_dim; font-size: 0.88em; }
+label.hc-settings-hint { color: @gs_fg_dim; font-size: 0.82em; }
+window.hc.hc-light label.hc-settings-key { color: @wl_fg_dim; }
+window.hc.hc-light label.hc-settings-hint { color: @wl_fg_dim; }
+
+/* ============================================================
+ * EDITOR
+ * ============================================================ */
+.hc-sourceview { background-color: @gs_content; }
+box.hc-placeholder label { color: @gs_fg_dim; }
+box.hc-placeholder image { opacity: 0.35; }
+box.hc-tab button.hc-tab-close { min-width: 18px; min-height: 18px; padding: 0; color: @gs_fg_dim; }
+box.hc-tab button.hc-tab-close:hover { background-color: rgba(255,255,255,0.12); color: @gs_fg; }
+window.hc.hc-light .hc-sourceview { background-color: @wl_content; }
+
+/* ============================================================
+ * OUTLINE / SUCHE
+ * ============================================================ */
+listbox.hc-outline { background-color: @gs_content; color: @gs_fg; }
+listbox.hc-outline row:selected { background-color: rgba(90,160,230,0.22); }
+label.hc-outline-icon { color: @gs_accent; font-family: monospace; }
+label.hc-search-loc { color: @gs_accent; font-family: monospace; font-size: 0.86em; }
+listbox.hc-search-results { background-color: @gs_content; }
+listbox.hc-search-results row:selected { background-color: rgba(90,160,230,0.22); }
+window.hc.hc-light listbox.hc-outline,
+window.hc.hc-light listbox.hc-search-results { background-color: @wl_content; color: @wl_fg; }
+
+/* ============================================================
+ * AGENT-CHAT
+ * ============================================================ */
+box.hc-agent-log { background-color: @gs_content; }
+window.hc.hc-light box.hc-agent-log { background-color: @wl_content; color: @wl_fg; }
+
+label.hc-bubble {
+    padding: 8px 12px; border-radius: 10px;
+    background-color: @gs_elevated; color: @gs_fg;
+}
+label.hc-bubble-user { background-color: @gs_accent; color: #0d1220; }
+label.hc-bubble-assistant { background-color: @gs_elevated; color: @gs_fg; }
+label.hc-bubble-system { background-color: transparent; color: @gs_fg_dim; font-size: 0.84em; font-style: italic; }
+box.hc-bubble-thinking { padding: 6px 10px; }
+box.hc-agent-input entry { background-color: @gs_elevated; color: @gs_fg; border: 1px solid @gs_border; border-radius: 8px; }
+checkbutton.hc-agent-auto { color: @gs_fg_dim; font-size: 0.86em; }
+label.hc-agent-activity { color: @gs_accent; font-size: 0.82em; font-style: italic; min-height: 14px; }
+
+window.hc.hc-light label.hc-bubble-assistant { background-color: #edf1f7; color: @wl_fg; }
+window.hc.hc-light label.hc-bubble-user { background-color: @wl_accent; color: #fff; }
+window.hc.hc-light label.hc-bubble-system { color: @wl_fg_dim; }
+
+@keyframes hc-dot-pulse {
+    0%   { opacity: 0.25; transform: translateY(0px); }
+    40%  { opacity: 1.0;  transform: translateY(-4px); }
+    80%  { opacity: 0.25; transform: translateY(0px); }
+    100% { opacity: 0.25; transform: translateY(0px); }
+}
+label.hc-thinking-dot { font-size: 1.3em; color: @gs_accent; animation: hc-dot-pulse 1.4s ease-in-out infinite; margin: 0 1px; }
+label.hc-dot-1 { animation-delay: 0.0s; }
+label.hc-dot-2 { animation-delay: 0.2s; }
+label.hc-dot-3 { animation-delay: 0.4s; }
+
+/* ============================================================
+ * TERMINAL / PROBLEME / PREVIEW
+ * ============================================================ */
+box.hc-termbox { background-color: #13161c; border-top: 1px solid @gs_border; box-shadow: 0 -6px 20px rgba(0,0,0,0.30); }
+box.hc-problems { background-color: #241c1c; border-bottom: 1px solid @gs_border; padding: 4px 8px; }
+label.hc-problems-head { color: #e0a34d; font-weight: 600; font-size: 0.85em; }
+button.hc-problem-chip {
+    background-color: rgba(224,163,77,0.14); color: #f0c080; border: none;
+    border-radius: 5px; padding: 2px 8px; font-family: monospace; font-size: 0.82em;
+}
+button.hc-problem-chip:hover { background-color: rgba(224,163,77,0.28); }
+box.hc-preview-head { background-color: @gs_bar; border-bottom: 1px solid @gs_border; }
+label.hc-preview-title { font-size: 0.78em; color: @gs_fg_dim; font-weight: 600; letter-spacing: 0.05em; }
+box.hc-ui-holder { background-color: #2a2e37; }
+.hc-preview-status { font-size: 0.86em; opacity: 0.62; }
+.hc-preview-warn { color: #e0a33a; opacity: 1; }
+
+/* ============================================================
+ * STATUSLEISTE
+ * ============================================================ */
+box.hc-statusbar {
+    background-color: @gs_bar; color: @gs_fg_dim;
+    border-top: 1px solid @gs_border; padding: 2px 14px; min-height: 22px;
+}
+box.hc-statusbar label { font-size: 0.80em; color: @gs_fg_dim; }
+box.hc-statusbar label.hc-activity { font-size: 0.78em; color: @gs_accent; font-style: italic; opacity: 0.92; }
+box.hc-statusbar spinner { -gtk-icon-size: 11px; color: @gs_accent; margin-right: 3px; }
+window.hc.hc-light box.hc-statusbar { background-color: @wl_bar; color: @wl_fg_dim; border-top: 1px solid @wl_border; }
+window.hc.hc-light box.hc-statusbar label { color: @wl_fg_dim; }
+
+/* ============================================================
+ * ABOUT-DIALOG
+ * ============================================================ */
+box.hc-about-body { background-color: @gs_content; color: @gs_fg; padding: 28px 32px; }
+box.hc-about-logo { padding-bottom: 20px; }
+label.hc-about-title { font-size: 1.7em; font-weight: 700; color: @gs_fg; }
+label.hc-about-subtitle { font-family: monospace; color: @gs_accent; font-size: 0.90em; }
+label.hc-about-desc, label.hc-about-key { color: @gs_fg_dim; font-size: 0.88em; }
+label.hc-about-section { font-weight: 700; font-size: 0.78em; color: @gs_fg_dim; letter-spacing: 0.07em; margin-top: 14px; }
+window.hc.hc-light box.hc-about-body { background-color: @wl_content; color: @wl_fg; }
+window.hc.hc-light label.hc-about-title { color: @wl_fg; }
+window.hc.hc-light label.hc-about-desc, window.hc.hc-light label.hc-about-key { color: @wl_fg_dim; }
+window.hc.hc-light label.hc-about-section { color: @wl_fg_dim; }
+
+/* ============================================================
+ * WIZARD
+ * ============================================================ */
+label.hc-wizard-head { font-size: 1.1em; font-weight: 700; color: @gs_fg; }
+label.hc-check-ok   { color: #5fd38a; font-weight: 700; }
+label.hc-check-fail { color: #e0645f; font-weight: 700; }
+box.hc-check-box { background-color: @gs_content; border: 1px solid @gs_border; border-radius: 8px; padding: 10px; }
+window.hc.hc-light label.hc-wizard-head { color: @wl_fg; }
+window.hc.hc-light box.hc-check-box { background-color: @wl_elevated; border-color: @wl_border; }
+
+/* ============================================================
+ * LADESCREEN / GIT / SANDBOX
+ * ============================================================ */
+box.hc-loading { background-color: rgba(16,19,24,0.92); }
+label.hc-loading-title { font-size: 1.4em; font-weight: 700; color: #e7eaef; }
+label.hc-loading-detail { color: #aab2c0; font-family: monospace; font-size: 0.92em; }
+button.hc-install-btn { background-color: #c0502c; color: #fff; font-weight: 600; border: none; border-radius: 8px; padding: 8px 16px; }
+button.hc-install-btn:hover { background-color: #d0603c; }
+label.hc-branch { color: #9aa3b2; font-family: monospace; font-size: 0.82em; padding: 2px 8px; }
+button.hc-latest-btn { background-color: #b0801e; color: #fff; border: none; border-radius: 6px; padding: 3px 10px; font-size: 0.82em; font-weight: 600; }
+button.hc-latest-btn:hover { background-color: #c8902a; }
+window.hc-readonly box.hc-toolbar { border-top: 2px solid #c08a2a; }
+label.hc-offline-title { font-size: 1.15em; font-weight: 700; color: #99a2b0; }
+window.hc.hc-light box.hc-loading { background-color: rgba(244,245,247,0.94); }
+window.hc.hc-light label.hc-loading-title { color: @wl_fg; }
+
+/* ============================================================
+ * MASCHINENRAUM
+ * ============================================================ */
+.hc-machine > header { background: transparent; min-height: 30px; }
+.hc-machine tab { padding: 2px 14px; min-height: 26px; background: transparent; border: none; box-shadow: none; color: alpha(currentColor, 0.55); }
+.hc-machine tab:checked { color: @gs_accent; box-shadow: inset 0 -2px 0 @gs_accent; }
+.hc-svc-row { padding: 5px 4px; border-radius: 6px; }
+.hc-svc-row:hover { background: alpha(currentColor, 0.04); }
+.hc-svc-name { font-weight: 600; }
+.hc-mail-body { font-family: monospace; font-size: 0.9em; padding: 8px 10px; background: alpha(currentColor, 0.04); border-radius: 6px; }
+.hc-cmd-prompt { font-family: monospace; font-weight: 700; color: @gs_accent; }
+.hc-cmd-entry { font-family: monospace; background: alpha(currentColor, 0.05); border: none; box-shadow: none; border-radius: 6px; padding: 4px 8px; }
+.hc-cmd-entry:focus { box-shadow: inset 0 0 0 1px alpha(@gs_accent, 0.50); }
+.hc-menu-item { padding: 5px 12px; border-radius: 5px; }
+
+/* ============================================================
+ * CUSTOM-WERKZEUGE (Einstellungen)
+ * ============================================================ */
+box.hc-tool-row {
+    border-radius: 6px; padding: 7px 8px;
+    border: 1px solid @gs_border; margin-bottom: 5px;
+    background-color: @gs_content;
+}
+box.hc-tool-row:hover { background-color: @gs_elevated; }
+box.hc-tool-row.hc-builtin { border-left: 3px solid @gs_accent; }
+label.hc-tool-name { font-weight: 600; font-size: 0.90em; color: @gs_fg; }
+label.hc-tool-desc { font-size: 0.82em; color: @gs_fg_dim; }
+label.hc-tool-badge {
+    font-size: 0.72em; background-color: rgba(90,160,230,0.18); color: @gs_accent;
+    border-radius: 4px; padding: 2px 7px; margin-right: 4px; border: 1px solid rgba(90,160,230,0.30);
+}
+label.hc-tool-badge-builtin {
+    font-size: 0.72em; background-color: rgba(90,160,230,0.10); color: @gs_fg_dim;
+    border-radius: 4px; padding: 2px 7px; border: 1px solid @gs_border;
+}
+window.hc.hc-light box.hc-tool-row { background-color: @wl_elevated; border-color: @wl_border; }
+window.hc.hc-light box.hc-tool-row:hover { background-color: @wl_content; }
+window.hc.hc-light label.hc-tool-name { color: @wl_fg; }
+window.hc.hc-light label.hc-tool-desc { color: @wl_fg_dim; }

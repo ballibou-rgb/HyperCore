@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gresources>
+  <gresource prefix="/ovh/datanet/hypercore">
+    <file>style.css</file>
+    <file>icons/app-logo.svg</file>
+    <file>icons/app-icon.png</file>
+    <file>icons/logo.png</file>
+    <file>icons/new-project.svg</file>
+    <file>icons/open.svg</file>
+    <file>icons/save.svg</file>
+    <file>icons/build.svg</file>
+    <file>icons/run.svg</file>
+    <file>icons/snapshot.svg</file>
+    <file>icons/search.svg</file>
+    <file>icons/preview.svg</file>
+    <file>icons/terminal.svg</file>
+    <file>icons/sidebar.svg</file>
+    <file>icons/outline.svg</file>
+    <file>icons/agent.svg</file>
+    <file>icons/settings.svg</file>
+    <file>icons/sandbox.svg</file>
+    <file>icons/folder.svg</file>
+    <file>icons/file.svg</file>
+    <file>icons/close.svg</file>
+    <file>icons/refresh.svg</file>
+    <file>icons/mail.svg</file>
+    <file>icons/rag.svg</file>
+    <file>templates/c_console.c</file>
+    <file>templates/gtk4_main.c</file>
+    <file>templates/gtk4_window.ui</file>
+    <file>templates/php_web.php</file>
+    <file>templates/php_console.php</file>
+    <file>templates/py_main.py</file>
+    <file>templates/bash_main.sh</file>
+  </gresource>
+</gresources>

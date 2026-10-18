@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+# HyperCore Studio - Sandbox-Einrichtung ("Dicke Sandbox").
+# Erstellt eine isolierte Umgebung mit PHP, Python, gcc, SQLite und MySQL-Client.
+# Strategie: bevorzugt chroot via debootstrap, sonst Docker-Image, sonst Hinweis.
+# Bricht nie hart ab (Paketinstallation soll nicht scheitern).
+set -u
+SB_ROOT="/opt/hypercore/sandbox"
+IMAGE="hypercore/sandbox:1"
+AUTO="${1:-}"
+
+log(){ echo "[hypercore-sandbox] $*"; }
+
+build_chroot() {
+    command -v debootstrap >/dev/null 2>&1 || return 1
+    log "Erstelle chroot-Sandbox unter $SB_ROOT (debootstrap)…"
+    mkdir -p "$SB_ROOT"
+    debootstrap --variant=minbase stable "$SB_ROOT" >/dev/null 2>&1 || return 1
+    chroot "$SB_ROOT" /bin/sh -c \
+        "apt-get update && apt-get install -y gcc g++ make python3 php-cli sqlite3 default-mysql-client" \
+        >/dev/null 2>&1 || return 1
+    log "chroot-Sandbox bereit."
+    return 0
+}
+
+build_docker() {
+    command -v docker >/dev/null 2>&1 || return 1
+    log "Erstelle Docker-Sandbox-Image ($IMAGE)…"
+    tmp="$(mktemp -d)"
+    cat > "$tmp/Dockerfile" <<DOCKER
+FROM debian:stable-slim
+RUN apt-get update && apt-get install -y gcc g++ make python3 php-cli sqlite3 default-mysql-client && rm -rf /var/lib/apt/lists/*
+WORKDIR /work
+DOCKER
+    docker build -t "$IMAGE" "$tmp" >/dev/null 2>&1
+    rc=$?
+    rm -rf "$tmp"
+    [ $rc -eq 0 ] && { log "Docker-Image bereit."; return 0; }
+    return 1
+}
+
+if [ -d "$SB_ROOT/usr/bin" ]; then
+    log "Sandbox bereits vorhanden."
+    exit 0
+fi
+
+if build_chroot; then exit 0; fi
+if build_docker; then exit 0; fi
+
+log "Keine Sandbox-Methode verfuegbar (debootstrap/docker fehlen)."
+log "HyperCore Studio laeuft im LOKAL-Modus und nutzt die Host-Toolchain."
+# Im Auto-Modus kein Fehlercode, damit die Paketinstallation nicht scheitert.
+[ "$AUTO" = "--auto" ] && exit 0
+exit 1

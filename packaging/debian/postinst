@@ -1,0 +1,18 @@
+#!/bin/sh
+set -e
+# Datenbanken aktualisieren (best effort)
+if [ -x "$(command -v update-mime-database)" ]; then
+    update-mime-database /usr/share/mime >/dev/null 2>&1 || true
+fi
+if [ -x "$(command -v update-desktop-database)" ]; then
+    update-desktop-database -q /usr/share/applications >/dev/null 2>&1 || true
+fi
+if [ -x "$(command -v gtk-update-icon-cache)" ]; then
+    gtk-update-icon-cache -q -t -f /usr/share/icons/hicolor >/dev/null 2>&1 || true
+fi
+# Sandbox/Container vorbereiten (never fatal)
+if [ -x /usr/libexec/hypercore/hypercore-sandbox-setup ]; then
+    /usr/libexec/hypercore/hypercore-sandbox-setup --auto >/var/log/hypercore-sandbox.log 2>&1 || \
+        echo "HyperCore: Sandbox-Einrichtung uebersprungen (siehe /var/log/hypercore-sandbox.log)."
+fi
+exit 0

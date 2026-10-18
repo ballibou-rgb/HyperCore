@@ -1,0 +1,95 @@
+HYPERCORE STUDIO - IDE (GTK4)
+=============================
+Herausgeber: DATANET.OVH LTD
+Reine GTK4-Anwendung in C (ohne libadwaita). Zero-Dependency-Monolith:
+CSS, Icons und Templates sind via GResource in die Binary einkompiliert.
+
+Projektformat: .hcs    ·    Globaler Workspace: ~/HyperCore
+
+FUNKTIONEN (v1)
+---------------
+Kernarchitektur
+  - Monolith: eine ausfuehrbare Datei, Boilerplate via GResource.
+  - Statisches C-Routing fuer den Projekt-Wizard.
+Workspace & Dateien
+  - Globaler Workspace ~/HyperCore; neue Projekte als Unterordner.
+  - Tresor-Prinzip: der Projektbaum zeigt NUR in der .hcs gelistete Dateien.
+  - Auto-Save vor jedem Build/Run (hart, ohne Nachfrage).
+Sandbox & Dienste ("Maschinenraum")
+  - Backend local/chroot/docker; bei docker ein persistenter Container je
+    Projekt mit Bind-Mount. Build, Run, Syntaxpruefung und die Werkzeuge
+    des Agenten laufen alle in derselben Sandbox-Instanz.
+  - Projekt oeffnen startet automatisch, was der Projekttyp braucht:
+      Webserver      php -S bzw. python3 -m http.server
+      Datenbank      MariaDB mit eigenem Datenverzeichnis je Projekt,
+                     Datenbank wird angelegt, root ohne Passwort
+      Mail-Catcher   SMTP-Server in der IDE; mail() landet im Mail-Reiter
+      GUI-Emulator   gtk4-broadwayd fuer native GTK-Oberflaechen
+    Jeder Dienst wird per TCP-Health-Check verifiziert (Retry + Logdatei).
+  - Unteres Panel mit den Reitern Konsole, Dienste und Mail.
+  - Ladescreen "Waking up Sandbox..." mit Abhaengigkeits-Check, der IN der
+    Sandbox prueft und sich nach Sprache UND Projekttyp richtet
+    (rot=Blocker mit Install-Button, gruen=bereit -> Projekt oeffnet sich).
+Editor & Live-Preview
+  - GtkSourceView: Zeilennummern, Syntax-Highlighting, Fehler-Wellenlinien.
+  - Die Vorschau oeffnet sich automatisch; nichts muss "gestartet" werden.
+  - GTK .ui wird bei jedem Tastendruck direkt aus dem Editor-Puffer
+    gezeichnet - ohne Speichern und ohne Build. Bei halbfertigem XML
+    bleibt die letzte gueltige Ansicht stehen, ein Hinweisstreifen nennt
+    den Grund. HTML/CSS/JS ebenso live; PHP ueber den laufenden Server.
+  - Live-Kette beim Tippen: 250 ms -> Vorschau + Syntaxpruefung,
+    900 ms -> Auto-Save (abschaltbar, respektiert die Git-Schreibsperre).
+  - Nativer Emulator (Broadway): GTK-Apps streamen ihr UI ins
+    Emulator-Fenster; die IDE wartet per Health-Check auf den Server.
+  - Snapshot-Tool: GUI-Snapshot als PNG, Eintrag in die .hcs-Whitelist.
+KI-Agent
+  - Rollen-Profile (Architekt / Planer / Coder) per Dropdown.
+  - Smart Context: System-Prompt + RAG-Kontext + letzte Antwort + Eingabe.
+  - Graceful Degradation: ohne Konfiguration "Agent Offline"-Placeholder.
+  - Tool-Transparenz + 6 lokale Werkzeuge (list_directory, read_file,
+    search_project, project_status, write_file, replace_in_file) mit
+    agentischem Loop. Der Agent ist auf Werkzeugnutzung verpflichtet:
+    Code im Chat statt einer Dateiaenderung loest eine Nachfass-Runde aus.
+  - Der Verlauf inklusive Werkzeugergebnisse ueberlebt die Nutzerrunde.
+  - Auto-Crash-Hook: Stacktrace zur Analyse an den Agenten.
+RAG-Engine (Ollama)
+  - Chunking der Whitelist-Dateien, Embeddings via Ollama (/api/embeddings),
+    Cosine-Retrieval (lexikalischer Fallback), Delta-Update beim Speichern,
+    Garbage-Collection beim Entfernen, visueller RAG-Manager, Force-Rebuild.
+Native Source Control (libgit2)
+  - Auto-Versioning: neue/importierte Projekte werden Git-Repos (Initial
+    Commit). Branch-Anzeige im Header.
+  - Time Machine: Sprung auf alten Commit = Read-Only; "Zurueck zu Latest".
+  - KI-Commits: Commit-Message aus dem Diff (Menue Git -> Commit).
+Identitaet & Compliance
+  - Global Identity (Name, Firma, E-Mail, Website, Lizenz).
+  - Strict Compliance Mode: erzwingt DocBlocks + Copyright-Header.
+Eigene Konsole (keine System-Shell)
+  - Kein PTY und kein Shell-Prozess: die Ausgabeflaeche nimmt keine
+    Tastatureingaben an, es gibt keine Bash-History des Benutzers.
+  - Eigener Befehlssatz: build, run, emulator, services, restart <dienst>,
+    url, db, mail, open, snapshot, errors, sandbox, clear, help.
+  - Rechtsklick: Auswahl oder alle Fehler an den Agenten senden;
+    Build-Fehler gehen automatisch an ihn.
+
+Premium-UI
+  - Flat-Design, eigene Titelleiste, eigenes SVG-Icon-Set, Floating-Terminal,
+    subtile Akzentlinie am aktiven Tab, erweitertes "Ueber"-Fenster.
+
+BAUEN / PAKETIEREN
+------------------
+  ./build.sh --deb     -> dist/hypercore-studio_<version>_amd64.deb
+  ./build.sh --bin     -> nur Binary (dist/hypercore)
+
+Build-Abhaengigkeiten (Debian/Ubuntu):
+  gcc pkg-config dpkg-dev glib-compile-resources
+  libgtk-4-dev libgtksourceview-5-dev libvte-2.91-gtk4-dev
+  libwebkitgtk-6.0-dev libjson-glib-dev libsoup-3.0-dev libgit2-dev
+
+Laufzeit-Empfehlung fuer die Dienste:
+  mariadb-server mariadb-client   (Datenbank je Projekt)
+  libgtk-4-bin                    (gtk4-broadwayd fuer den GUI-Emulator)
+  php-cli php-mysql               (PHP-Webprojekte mit Datenbank)
+  Fehlt etwas, bietet der Sandbox-Inspektor die Nachinstallation an.
+
+(c) 2026 DATANET.OVH LTD - Alle Rechte vorbehalten.

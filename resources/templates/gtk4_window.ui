@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <object class="GtkWindow" id="main_window">
+    <property name="title">Hallo HyperCore</property>
+    <property name="default-width">440</property>
+    <property name="default-height">260</property>
+    <child>
+      <object class="GtkBox">
+        <property name="orientation">vertical</property>
+        <property name="spacing">14</property>
+        <property name="margin-top">28</property>
+        <property name="margin-bottom">28</property>
+        <property name="margin-start">28</property>
+        <property name="margin-end">28</property>
+        <property name="valign">center</property>
+        <child><object class="GtkLabel" id="title"><property name="label">Hallo Welt aus GTK4!</property><style><class name="title-1"/></style></object></child>
+        <child><object class="GtkLabel" id="counter"><property name="label">Noch nicht geklickt.</property></object></child>
+        <child><object class="GtkButton" id="btn"><property name="label">Klick mich</property><property name="halign">center</property></object></child>
+      </object>
+    </child>
+  </object>
+</interface>

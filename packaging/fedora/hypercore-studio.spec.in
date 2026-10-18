@@ -1,0 +1,106 @@
+Name:           hypercore-studio
+Version:        ${VERSION}
+Release:        1%{?dist}
+Summary:        HyperCore Studio - IDE (GTK4)
+
+License:        Proprietary
+URL:            https://datanet.ovh
+Source0:        hypercore
+Source1:        app-logo.svg
+Source2:        app-icon.png
+Source3:        INFO.txt
+Source4:        hypercore-sandbox-setup
+
+BuildArch:      x86_64
+
+${REQUIRES_LINES}
+Recommends:     gcc
+Recommends:     gcc-c++
+Recommends:     make
+Recommends:     python3
+Recommends:     php-cli
+Recommends:     php-mysqlnd
+Recommends:     sqlite
+Recommends:     pkgconf
+Recommends:     mariadb-server
+Recommends:     mariadb
+Recommends:     gtk4
+Suggests:       debootstrap
+Suggests:       docker
+
+%description
+Reine GTK4-Entwicklungsumgebung (ohne libadwaita) der DATANET.OVH LTD.
+Monolithischer Zero-Dependency-Aufbau: CSS, Icons und Templates sind via
+GResource einkompiliert.
+
+Ein Projekt zu oeffnen faehrt die komplette Umgebung hoch: Sandbox,
+Webserver, Datenbank (eigenes Datenverzeichnis je Projekt), Mail-Catcher
+und GUI-Emulator starten automatisch und werden per Health-Check geprueft.
+
+Weiter enthalten: Editor mit Syntax-Highlighting und Live-Fehlermarkierung,
+Projektverwaltung mit Tresor-Whitelist (.hcs), eigene Konsole ohne
+System-Shell, nativer Broadway-Emulator, Sandbox-Inspektor sowie ein
+nativer KI-Agent mit Tool-Calling und lokaler RAG-Engine.
+
+Unterstuetzte Projektsprachen: C, C++, Python, Bash und PHP.
+
+%install
+rm -rf %{buildroot}
+install -D -m 755 %{SOURCE0}  %{buildroot}%{_bindir}/hypercore
+install -D -m 644 %{SOURCE1}  %{buildroot}%{_datadir}/icons/hicolor/scalable/apps/hypercore-studio.svg
+install -D -m 644 %{SOURCE2}  %{buildroot}%{_datadir}/icons/hicolor/256x256/apps/hypercore-studio.png
+install -D -m 644 %{SOURCE3}  %{buildroot}%{_datadir}/doc/hypercore-studio/INFO.txt
+install -D -m 755 %{SOURCE4}  %{buildroot}%{_libexecdir}/hypercore/hypercore-sandbox-setup
+
+install -d %{buildroot}%{_datadir}/applications
+cat > %{buildroot}%{_datadir}/applications/hypercore-studio.desktop <<'DESKTOP'
+[Desktop Entry]
+Type=Application
+Name=HyperCore Studio
+GenericName=Entwicklungsumgebung
+Comment=IDE fuer C, C++, Python, Bash und PHP
+Exec=/usr/bin/hypercore %f
+Icon=hypercore-studio
+Terminal=false
+Categories=Development;IDE;
+MimeType=application/x-hypercore-project;
+StartupNotify=true
+DESKTOP
+
+install -d %{buildroot}%{_datadir}/mime/packages
+cat > %{buildroot}%{_datadir}/mime/packages/hypercore-studio.xml <<'MIME'
+<?xml version="1.0" encoding="UTF-8"?>
+<mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
+  <mime-type type="application/x-hypercore-project">
+    <comment>HyperCore Studio Projekt</comment>
+    <comment xml:lang="de">HyperCore Studio Projekt</comment>
+    <glob pattern="*.hcs"/>
+    <icon name="hypercore-studio"/>
+  </mime-type>
+</mime-info>
+MIME
+
+%files
+%{_bindir}/hypercore
+%{_datadir}/icons/hicolor/scalable/apps/hypercore-studio.svg
+%{_datadir}/icons/hicolor/256x256/apps/hypercore-studio.png
+%{_datadir}/applications/hypercore-studio.desktop
+%{_datadir}/mime/packages/hypercore-studio.xml
+%{_libexecdir}/hypercore/hypercore-sandbox-setup
+%doc %{_datadir}/doc/hypercore-studio/INFO.txt
+
+%post
+update-mime-database %{_datadir}/mime >/dev/null 2>&1 || true
+update-desktop-database -q %{_datadir}/applications >/dev/null 2>&1 || true
+gtk-update-icon-cache -q -t -f %{_datadir}/icons/hicolor >/dev/null 2>&1 || true
+if [ -x %{_libexecdir}/hypercore/hypercore-sandbox-setup ]; then
+    %{_libexecdir}/hypercore/hypercore-sandbox-setup --auto \
+        >/var/log/hypercore-sandbox.log 2>&1 || \
+        echo "HyperCore: Sandbox-Einrichtung uebersprungen (siehe /var/log/hypercore-sandbox.log)."
+fi
+
+%postun
+if [ $1 -eq 0 ]; then
+    update-mime-database %{_datadir}/mime >/dev/null 2>&1 || true
+    update-desktop-database -q %{_datadir}/applications >/dev/null 2>&1 || true
+fi

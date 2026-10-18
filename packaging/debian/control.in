@@ -1,0 +1,28 @@
+Package: hypercore-studio
+Version: ${VERSION}
+Section: devel
+Priority: optional
+Architecture: amd64
+Depends: ${DEPS}
+Recommends: gcc, g++, make, python3, php-cli, php-mysql, sqlite3, pkg-config,
+ mariadb-server, mariadb-client, libgtk-4-bin
+Suggests: debootstrap, docker.io
+Maintainer: DATANET.OVH LTD <info@datanet.ovh>
+Homepage: https://datanet.ovh
+Description: HyperCore Studio - IDE (GTK4)
+ Reine GTK4-Entwicklungsumgebung (ohne libadwaita) der DATANET.OVH LTD.
+ Monolithischer Zero-Dependency-Aufbau: CSS, Icons und Templates sind via
+ GResource einkompiliert.
+ .
+ Ein Projekt zu oeffnen faehrt die komplette Umgebung hoch: Sandbox,
+ Webserver, Datenbank (eigenes Datenverzeichnis je Projekt), Mail-Catcher
+ und GUI-Emulator starten automatisch und werden per Health-Check geprueft.
+ Die Live-Ansicht ist sofort da und folgt dem Tippen - GTK-.ui-Dateien
+ werden ohne Speichern und ohne Build direkt aus dem Editor gezeichnet.
+ .
+ Weiter enthalten: Editor mit Syntax-Highlighting und Live-Fehlermarkierung,
+ Projektverwaltung mit Tresor-Whitelist (.hcs), eigene Konsole ohne
+ System-Shell, nativer Broadway-Emulator, Sandbox-Inspektor sowie ein
+ nativer KI-Agent mit Tool-Calling und lokaler RAG-Engine.
+ .
+ Unterstuetzte Projektsprachen: C, C++, Python, Bash und PHP.
